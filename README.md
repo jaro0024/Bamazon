@@ -31,7 +31,7 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 
 ![Product Chosen is Out of Stock](/images/outOfStock.png)
 
-* Since the item is in stock, it shows the order summary and ends connection
+* Since the item is in stock, it shows the order summary and ends connection:
 
 ![Product Chosen is in Stock](/images/inStock.png)
 
