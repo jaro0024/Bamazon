@@ -26,7 +26,7 @@ connection.connect(function (err) {
 });
 
 function managerTask() {
-    // Prompt user to enter which product they want to purchase and how many units
+    // Prompt manager with task options
     inquirer
         .prompt({
             name: "task",
@@ -34,7 +34,7 @@ function managerTask() {
             message: "Choose a task below: ",
             choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
         })
-        // Query to get the input of the user
+        // Query to get manager's choice 
         .then(function (answer) {
             if (answer.task === "View Products for Sale") {
                 viewList();
@@ -51,6 +51,7 @@ function managerTask() {
         });
 };
 
+// Function to show the list of available products to purchase
 function viewList() {
     connection.query("SELECT * FROM products", function (err, res) {
         console.log("---------------------------------------------------------------------------------------------------------");
@@ -65,6 +66,7 @@ function viewList() {
     });
 };
 
+// Function to show a lost of products with low inventory
 function viewLowInv() {
     connection.query("SELECT * FROM products", function (err, res) {
         console.log("---------------------------------------------------------------------------------------------------------");
