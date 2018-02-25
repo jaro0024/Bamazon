@@ -2,6 +2,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 require("dotenv").config();
+const chalk = require('chalk');
 
 // Configuring connectiong with MySQL
 var connection = mysql.createConnection({
@@ -21,6 +22,8 @@ connection.connect(function (err) {
     if (err) throw err;
     // If connectin is successful, than console.log the msg and run function below
     console.log("connected as id " + connection.threadId + "\n");
+    console.log(chalk.greenBright("WELCOME TO BAMAZON!!! HERE IS THE LIST OF OUR PRODUCTS: "));
+    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
     productList();
 });
 
@@ -28,8 +31,8 @@ connection.connect(function (err) {
 function productList() {
     connection.query("SELECT * FROM products", function (err, res) {
         for (var i = 0; i < res.length; i++) {
-            console.log("Item ID: " + res[i].item_ID + " || Product: " + res[i].product_name + " || Department: " + res[i].department_name +
-                " || Price: " + res[i].price);
+            console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
+                (chalk.magentaBright(" || Price: " + res[i].price)));
         }
         console.log("\n");
         placeOrder();
@@ -66,18 +69,24 @@ function placeOrder() {
                 }
             }
         ])
-
+        // Query to get the input of the user
         .then(function (answer) {
             // console.log(answer.product_id);
             connection.query("SELECT * FROM products WHERE ?", { item_ID: answer.product_id }, function (err, res) {
+                // If the item is out of stock, then console.log msg to choose another item
                 if (answer.quantity > res[0].stock_quantity) {
-                    console.log("Insufficient Quantity! Please select another product");
+                    console.log("\n");
+                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log(chalk.redBright("PRODUCT IS OUT OF STOCK. PLEASE SELECT ANOTHER ONE:"));
+                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    productList();
                 }
+                // Else, show the order summary and the total
                 else {
                     var total = answer.quantity * res[0].price;
-                    console.log("-------------------------------------------------------------------");
-                    console.log("YOUR ORDER SUMMARY: " );
-                    console.log(
+                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log(chalk.greenBright("YOUR ORDER SUMMARY: "));
+                    console.log(chalk.greenBright(
                         "Item ID: " +
                         res[0].item_ID +
                         " || Product: " +
@@ -86,10 +95,30 @@ function placeOrder() {
                         res[0].department_name +
                         " || Price: " +
                         res[0].price +
+                        " || Quantity: " +
+                        answer.quantity +
                         " || Total: " +
                         total.toFixed(2)
+                    ));
+
+                    connection.query(
+                        "UPDATE products SET ? WHERE ?",
+                        [
+                            {
+                                stock_quantity: res[0].stock_quantity - answer.quantity
+                            },
+                            {
+                                item_id: answer.product_id
+                            }
+                        ],
+                        function (error) {
+                            if (error) throw err;
+                            // console.log("Stock updated!");
+                        }
                     );
-                    console.log("-------------------------------------------------------------------");
+                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log(chalk.redBright("THANK YOU FOR SHOPPING AT BAMAZON!"));
+                    process.exit();
                 }
             });
         });
