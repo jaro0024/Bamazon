@@ -100,7 +100,7 @@ function placeOrder() {
                         " || Total: " +
                         total.toFixed(2)
                     ));
-
+                    // Updating inventory after the order is placed
                     connection.query(
                         "UPDATE products SET ? WHERE ?",
                         [
@@ -118,6 +118,7 @@ function placeOrder() {
                     );
                     console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
                     console.log(chalk.redBright("THANK YOU FOR SHOPPING AT BAMAZON!"));
+                    // Ending connection
                     process.exit();
                 }
             });
