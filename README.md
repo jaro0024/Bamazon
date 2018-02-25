@@ -21,12 +21,19 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 7. If the product is available, your order summary will appear
 8. If the product you choose is out of stock, you will be prompted to choose a different one
 
-## Screenshots
+## Customer view screenshots
 
-### Customer view
+* Shows the list of products available for purchase:
+
 ![Product List](/images/prodList.png)
-![Product Chosen is in Stock](/images/inStock.png)
+
+* Shows that the product is out of stock and gives the user a chance to buy another item:
+
 ![Product Chosen is Out of Stock](/images/outOfStock.png)
+
+* Since the item is in stock, it shows the order summary and ends connection
+
+![Product Chosen is in Stock](/images/inStock.png)
 
 ## Author
 Daniela Jaros
