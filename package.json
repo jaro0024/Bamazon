@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jaro0024/Bamazon#readme",
   "dependencies": {
+    "dotenv": "^5.0.0",
     "inquirer": "^5.1.0",
     "mysql": "^2.15.0"
   },
