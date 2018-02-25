@@ -1,9 +1,9 @@
 # Bamazon
 
-##Description
+## Description
 A command-line shopping app built using JavaScript and MySQL and executed through Node.js.
 
-##Technologies used
+## Technologies used
 * MySQL
 * Node.js
 * JavaScript
@@ -11,7 +11,7 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 * dotenv NPM package
 * Chalk NPM package
 
-##How it Works
+## How it Works
 1. Clone Repo
 2. Install NPM packages listed in package.json dependencies
 3. Open Git Bash or Terminal to run command "node bamazonCustomer.js" 
@@ -21,12 +21,12 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 7. If the product is available, your order summary will appear
 8. If the product you choose is out of stock, you will be prompted to choose a different one
 
-##Screenshots
+## Screenshots
 
-###Customer view
+### Customer view
 ![Product List](/images/prodList.png)
 ![Product Chosen is in Stock](/images/inStock.png)
 ![Product Chosen is Out of Stock](/images/outOfStock.png)
 
-##Author
+## Author
 Daniela Jaros
