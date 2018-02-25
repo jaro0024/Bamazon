@@ -23,7 +23,7 @@ connection.connect(function (err) {
     // If connectin is successful, than console.log the msg and run function below
     console.log("connected as id " + connection.threadId + "\n");
     console.log(chalk.greenBright("WELCOME TO BAMAZON!!! HERE IS THE LIST OF OUR PRODUCTS: "));
-    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
     productList();
 });
 
@@ -76,15 +76,15 @@ function placeOrder() {
                 // If the item is out of stock, then console.log msg to choose another item
                 if (answer.quantity > res[0].stock_quantity) {
                     console.log("\n");
-                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
                     console.log(chalk.redBright("PRODUCT IS OUT OF STOCK. PLEASE SELECT ANOTHER ONE:"));
-                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
                     productList();
                 }
                 // Else, show the order summary and the total
                 else {
                     var total = answer.quantity * res[0].price;
-                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
                     console.log(chalk.greenBright("YOUR ORDER SUMMARY: "));
                     console.log(chalk.greenBright(
                         "Item ID: " +
@@ -115,7 +115,7 @@ function placeOrder() {
                             if (error) throw err;
                         }
                     );
-                    console.log("----------------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
                     console.log(chalk.redBright("THANK YOU FOR SHOPPING AT BAMAZON!"));
                     // Ending connection
                     process.exit();
