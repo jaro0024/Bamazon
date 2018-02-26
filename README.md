@@ -69,6 +69,5 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 
 ![Add Product](/images/newProd.png)
 
-
 ## Author
 Daniela Jaros
