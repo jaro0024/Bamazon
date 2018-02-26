@@ -35,17 +35,17 @@ function managerTask() {
             choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"]
         })
         // Query to get manager's choice 
-        .then(function (answer) {
-            if (answer.task === "View Products for Sale") {
+        .then(function (answers) {
+            if (answers.task === "View Products for Sale") {
                 viewList();
             }
-            else if (answer.task === "View Low Inventory") {
+            else if (answers.task === "View Low Inventory") {
                 viewLowInv();
             }
-            else if (answer.task === "Add to Inventory") {
+            else if (answers.task === "Add to Inventory") {
                 addInventory();
             }
-            else if (answer.task === "Add New Product") {
+            else if (answers.task === "Add New Product") {
                 addProduct();
             }
         });
@@ -54,39 +54,109 @@ function managerTask() {
 // Function to show the list of available products to purchase
 function viewList() {
     connection.query("SELECT * FROM products", function (err, res) {
-        console.log("---------------------------------------------------------------------------------------------------------");
+        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
         for (var i = 0; i < res.length; i++) {
             console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
                 (chalk.magentaBright(" || Price: " + res[i].price)) + (chalk.greenBright(" || Quantity: " + res[i].stock_quantity)));
         }
-        console.log("---------------------------------------------------------------------------------------------------------");
+        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
 
         if (err) throw err;
-        process.exit();
+        managerTask();
     });
 };
 
-// Function to show a lost of products with low inventory
+// Function to show a list of products with low inventory
 function viewLowInv() {
     connection.query("SELECT * FROM products", function (err, res) {
-        console.log("---------------------------------------------------------------------------------------------------------");
+        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
         for (var i = 0; i < res.length; i++) {
-            if (res[i].stock_quantity < 5) {
+            if (res[i].stock_quantity <= 5) {
                 console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
                     (chalk.magentaBright(" || Price: " + res[i].price)) + (chalk.greenBright(" || Quantity: " + res[i].stock_quantity)));
             }
         }
-        console.log("---------------------------------------------------------------------------------------------------------");
+        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
 
         if (err) throw err;
-        process.exit();
+        managerTask();
     });
 };
 
-// function addInventory() {
+// Function to add inventory to existing products
+function addInventory() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Enter item ID of product being updated: ",
+                name: "itemNum"
+            },
+            {
+                type: "input",
+                message: "Enter inventory quantity being added: ",
+                name: "invAdded"
+            }
+        ])
+        .then(function (answers) {
+            connection.query("SELECT * FROM products WHERE ?", { item_ID: answers.itemNum }, function (err, res) {
+                var newQuantity = parseInt(answers.invAdded) + res[0].stock_quantity;
+                connection.query(
+                    "UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: newQuantity
+                        },
+                        {
+                            item_id: answers.itemNum
+                        }
+                    ],
+                    function (error) {
+                        if (error) throw err;
+                        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
+                        console.log(chalk.greenBright("Inventory for item " + answers.itemNum + " - " + res[0].product_name + " has been updated to " + newQuantity + "."));
+                        console.log("---------------------------------------------------------------------------------------------------------------------------------------");
+                        managerTask();
+                    }
+                );
+            });
+        });
+};
 
-// };
-
-// function addProduct() {
-
-// };
+// Function to add new products to inventory
+function addProduct() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Please enter product name to add: ",
+                name: "prod"
+            },
+            {
+                type: "input",
+                message: "Please enter department name: ",
+                name: "dept"
+            },
+            {
+                type: "input",
+                message: "Please enter product price: ",
+                name: "price"
+            },
+            {
+                type: "input",
+                message: "Please enter quantity in stock: ",
+                name: "quantity"
+            }
+        ])
+        .then(function (answers) {
+            connection.query("INSERT INTO products SET ?",
+                { product_name: answers.prod, department_name: answers.dept, price: answers.price, stock_quantity: answers.quantity },
+                function (error) {
+                    if (error) throw err;
+                    console.log("---------------------------------------------------------------------------------------------------------------------------------------");
+                    console.log(chalk.greenBright("The new item was sucessfully added! Here is your updated inventory: "));
+                    viewList();
+                }
+            );
+        });
+};

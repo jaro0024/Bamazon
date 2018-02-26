@@ -31,7 +31,7 @@ connection.connect(function (err) {
 function productList() {
     connection.query("SELECT * FROM products", function (err, res) {
         for (var i = 0; i < res.length; i++) {
-            console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
+            console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.redBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
                 (chalk.magentaBright(" || Price: " + res[i].price)));
         }
         console.log("\n");

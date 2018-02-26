@@ -11,7 +11,9 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 * dotenv NPM package
 * Chalk NPM package
 
-## How it Works
+## Customer Mode
+
+### How it Works
 1. Clone Repo
 2. Install NPM packages listed in package.json dependencies
 3. Open Git Bash or Terminal to run command "node bamazonCustomer.js" 
@@ -21,7 +23,7 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 7. If the product is available, your order summary will appear
 8. If the product you choose is out of stock, you will be prompted to choose a different one
 
-## Customer view screenshots
+### Screenshots
 
 * Shows the list of products available for purchase:
 
@@ -34,6 +36,39 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 * Since the item is in stock, it shows the order summary and ends connection:
 
 ![Product Chosen is in Stock](/images/inStock.png)
+
+## Manager Mode
+
+### How it Works
+1. Run command "node bamazonManager.js" 
+2. A list of task will appear
+3. If you choose "View Products for Sale" - a list of the inventory will appear
+4. If you choose "View Low Inventory" - a list of items with inventory <= 5 will appear
+5. If you choose "Add to Inventory" - you will be prompted to enter the item ID and the quantity you are adding 
+6. If you choose "Add New Product" - you will be prompted to enter the item name, department, price and quantity in stock for the new item and then it will show the updated list of products
+
+### Screenshots
+
+* Shows the task list for the manager to choose from:
+
+![Task List](/images/taskList.png)
+
+* Shows the list of products available for purchase:
+
+![Product List](/images/viewList.png)
+
+* Shows a list of items with inventory <= 5:
+
+![Low Inventory List](/images/lowInv.png)
+
+* It prompts the manager to enter item ID and quantity to be added to an existing product:
+
+![Add Inventory](/images/addInv.png)
+
+* It prompts the manager to enter product name, department name, price and quantity of stock of new item being added:
+
+![Add Product](/images/newProd.png)
+
 
 ## Author
 Daniela Jaros
