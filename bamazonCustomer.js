@@ -2,7 +2,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 require("dotenv").config();
-const chalk = require('chalk');
+var chalk = require("chalk");
 
 // Configuring connectiong with MySQL
 var connection = mysql.createConnection({
