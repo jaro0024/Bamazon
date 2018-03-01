@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 require("dotenv").config();
 var chalk = require("chalk");
+var Table = require("cli-table2");
 
 // Configuring connectiong with MySQL
 var connection = mysql.createConnection({
@@ -30,10 +31,15 @@ connection.connect(function (err) {
 // Function to read the table in the database and console.log the list of products for sale
 function productList() {
     connection.query("SELECT * FROM products", function (err, res) {
+
+        var table = new Table({
+            head: [chalk.greenBright("ID"), chalk.greenBright("PRODUCT NAME"), chalk.greenBright("DEPARTMENT"), chalk.greenBright("PRICE")]
+        });
         for (var i = 0; i < res.length; i++) {
-            console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.redBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
-                (chalk.magentaBright(" || Price: " + res[i].price)));
+            table.push([res[i].item_ID, res[i].product_name, res[i].department_name, res[i].price.toFixed(2)]);
         }
+        //Create table layout with items for sale
+        console.log(table.toString());
         console.log("\n");
         placeOrder();
 

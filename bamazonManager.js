@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 require("dotenv").config();
 var chalk = require("chalk");
+var Table = require("cli-table2");
 
 // Configuring connectiong with MySQL
 var connection = mysql.createConnection({
@@ -55,10 +56,14 @@ function managerTask() {
 function viewList() {
     connection.query("SELECT * FROM products", function (err, res) {
         console.log("---------------------------------------------------------------------------------------------------------------------------------------");
+        var table = new Table({
+            head: [chalk.greenBright("ID"), chalk.greenBright("PRODUCT NAME"), chalk.greenBright("DEPARTMENT"), chalk.greenBright("PRICE"), chalk.greenBright("STOCK QUANTITY")]
+        });
         for (var i = 0; i < res.length; i++) {
-            console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
-                (chalk.magentaBright(" || Price: " + res[i].price)) + (chalk.greenBright(" || Quantity: " + res[i].stock_quantity)));
+            table.push([res[i].item_ID, res[i].product_name, res[i].department_name, res[i].price.toFixed(2), res[i].stock_quantity]);
         }
+        //Create table layout with items for sale
+        console.log(table.toString());
         console.log("---------------------------------------------------------------------------------------------------------------------------------------");
 
         if (err) throw err;
@@ -70,12 +75,16 @@ function viewList() {
 function viewLowInv() {
     connection.query("SELECT * FROM products", function (err, res) {
         console.log("---------------------------------------------------------------------------------------------------------------------------------------");
+        var table = new Table({
+            head: [chalk.greenBright("ID"), chalk.greenBright("PRODUCT NAME"), chalk.greenBright("DEPARTMENT"), chalk.greenBright("PRICE"), chalk.greenBright("STOCK QUANTITY")]
+        });
         for (var i = 0; i < res.length; i++) {
             if (res[i].stock_quantity <= 5) {
-                console.log(chalk.yellowBright("Item ID: " + res[i].item_ID) + (chalk.whiteBright(" || Product: " + res[i].product_name)) + (chalk.cyanBright(" || Department: " + res[i].department_name)) +
-                    (chalk.magentaBright(" || Price: " + res[i].price)) + (chalk.greenBright(" || Quantity: " + res[i].stock_quantity)));
+                table.push([res[i].item_ID, res[i].product_name, res[i].department_name, res[i].price.toFixed(2), res[i].stock_quantity]);
             }
         }
+        //Create table layout with items for sale
+        console.log(table.toString());
         console.log("---------------------------------------------------------------------------------------------------------------------------------------");
 
         if (err) throw err;
