@@ -35,7 +35,7 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 
 * Since the item is in stock, it shows the order summary and ends connection:
 
-![Product Chosen is in Stock](/images/inStock.png)
+![Product Chosen is in Stock](/images/orderSummary.png)
 
 ## Manager Mode
 
@@ -68,6 +68,8 @@ A command-line shopping app built using JavaScript and MySQL and executed throug
 * It prompts the manager to enter product name, department name, price and quantity of stock of new item being added:
 
 ![Add Product](/images/newProd.png)
+
+![Add Product](/images/newProdInList.png)
 
 ## Author
 Daniela Jaros
